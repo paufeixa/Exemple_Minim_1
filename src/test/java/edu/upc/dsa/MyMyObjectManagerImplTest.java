@@ -1,10 +1,10 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.data.ObjectManager;
-import edu.upc.dsa.data.ObjectManagerImpl;
+import edu.upc.dsa.data.MyObjectManager;
+import edu.upc.dsa.data.MyObjectManagerImpl;
 import edu.upc.dsa.exceptions.BuyObjectException;
 import edu.upc.dsa.exceptions.UserExistingException;
-import edu.upc.dsa.models.Object;
+import edu.upc.dsa.models.MyObject;
 import edu.upc.dsa.models.User;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,12 +13,12 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class ObjectManagerImplTest {
-    ObjectManager om;
+public class MyMyObjectManagerImplTest {
+    MyObjectManager om;
 
     @Before
     public void setUp() throws UserExistingException, BuyObjectException {
-        om = new ObjectManagerImpl();
+        om = new MyObjectManagerImpl();
         om.register("Pau","Feixa","29/12/2001","paufeixa20019@gmail.com","1234");
         om.register("Kevin","Torres","23/07/2001","kevintorres@gmail.com","9876");
         om.register("Lluc","Feixa","29/12/2001","llucfeixa@gmail.com","abcd");
@@ -84,19 +84,19 @@ public class ObjectManagerImplTest {
 
     @Test
     public void testObjectsByPrice() {
-        List<Object> objects = this.om.objectsByPrice();
+        List<MyObject> myObjects = this.om.objectsByPrice();
 
-        Assert.assertEquals(30, objects.get(0).getCoins(),0);
-        Assert.assertEquals("Calculadora", objects.get(0).getName());
+        Assert.assertEquals(30, myObjects.get(0).getCoins(),0);
+        Assert.assertEquals("Calculadora", myObjects.get(0).getName());
 
-        Assert.assertEquals(5, objects.get(1).getCoins(),0);
-        Assert.assertEquals("Carpeta", objects.get(1).getName());
+        Assert.assertEquals(5, myObjects.get(1).getCoins(),0);
+        Assert.assertEquals("Carpeta", myObjects.get(1).getName());
 
-        Assert.assertEquals(3, objects.get(2).getCoins(),0);
-        Assert.assertEquals("Libreta", objects.get(2).getName());
+        Assert.assertEquals(3, myObjects.get(2).getCoins(),0);
+        Assert.assertEquals("Libreta", myObjects.get(2).getName());
 
-        Assert.assertEquals(1.25, objects.get(3).getCoins(),0);
-        Assert.assertEquals("Bolígrafo", objects.get(3).getName());
+        Assert.assertEquals(1.25, myObjects.get(3).getCoins(),0);
+        Assert.assertEquals("Bolígrafo", myObjects.get(3).getName());
     }
 
     @Test

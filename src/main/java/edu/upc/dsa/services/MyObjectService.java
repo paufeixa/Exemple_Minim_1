@@ -1,8 +1,8 @@
 package edu.upc.dsa.services;
 
-import edu.upc.dsa.data.ObjectManager;
-import edu.upc.dsa.data.ObjectManagerImpl;
-import edu.upc.dsa.models.Object;
+import edu.upc.dsa.data.MyObjectManager;
+import edu.upc.dsa.data.MyObjectManagerImpl;
+import edu.upc.dsa.models.MyObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,41 +16,41 @@ import java.util.List;
 
 @Api(value = "/object", description = "Endpoint to Object Service")
 @Path("/object")
-public class ObjectService {
-    private ObjectManager om;
+public class MyObjectService {
+    private MyObjectManager om;
 
-    public ObjectService() {
-        this.om = ObjectManagerImpl.getInstance();
+    public MyObjectService() {
+        this.om = MyObjectManagerImpl.getInstance();
     }
 
     @POST
     @ApiOperation(value = "create a new Object", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful", response=Object.class),
+            @ApiResponse(code = 200, message = "Successful", response= MyObject.class),
             @ApiResponse(code = 500, message = "Error")
     })
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newObject(Object object) {
-        if (object.getObjectId()==null || object.getName()==null || object.getDescription()==null || object.getCoins()==0) {
-            return Response.status(500).entity(object).build();
+    public Response newObject(MyObject myObject) {
+        if (myObject.getObjectId()==null || myObject.getName()==null || myObject.getDescription()==null || myObject.getCoins()==0) {
+            return Response.status(500).entity(myObject).build();
         }
-        this.om.addObject(object.getObjectId(), object.getName(), object.getDescription(), object.getCoins());
-        return Response.status(200).entity(object).build();
+        this.om.addObject(myObject.getObjectId(), myObject.getName(), myObject.getDescription(), myObject.getCoins());
+        return Response.status(200).entity(myObject).build();
     }
 
     @GET
     @ApiOperation(value = "get all Objects", notes = "asdasd")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful", response = Object.class, responseContainer="List"),
+            @ApiResponse(code = 200, message = "Successful", response = MyObject.class, responseContainer="List"),
     })
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getObject() {
 
-        List<Object> objects = this.om.objectsByPrice();
+        List<MyObject> myObjects = this.om.objectsByPrice();
 
-        GenericEntity<List<Object>> entity = new GenericEntity<List<Object>>(objects) {};
+        GenericEntity<List<MyObject>> entity = new GenericEntity<List<MyObject>>(myObjects) {};
         return Response.status(200).entity(entity).build();
     }
 /**

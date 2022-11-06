@@ -10,7 +10,7 @@ public class User {
     String mail;
     String password;
     double coins;
-    List<Object> objects;
+    List<MyObject> myObjects;
     public User(String name, String surname, String date, String mail, String password){
         this.name = name;
         this.surname = surname;
@@ -18,15 +18,15 @@ public class User {
         this.mail = mail;
         this.password = password;
         this.coins = 50;
-        this.objects = new LinkedList<>();
+        this.myObjects = new LinkedList<>();
     }
 
     public String getPassword() {
         return this.password;
     }
 
-    public List<Object> getObjects() {
-        return this.objects;
+    public List<MyObject> getObjects() {
+        return this.myObjects;
     }
 
     public double getCoins() {
@@ -41,8 +41,8 @@ public class User {
         return this.name;
     }
 
-    public void addObject(Object object) {
-        this.objects.add(object);
-        this.coins = this.coins - object.getCoins();
+    public void addObject(MyObject myObject) {
+        this.myObjects.add(myObject);
+        this.coins = this.coins - myObject.getCoins();
     }
 }

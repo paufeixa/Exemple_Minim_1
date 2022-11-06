@@ -1,10 +1,10 @@
 package edu.upc.dsa.data;
 
-import edu.upc.dsa.comparators.ObjectComparatorByPrice;
+import edu.upc.dsa.comparators.MyObjectComparatorByPrice;
 import edu.upc.dsa.comparators.UserComparatorByAlphabet;
 import edu.upc.dsa.exceptions.UserExistingException;
 import edu.upc.dsa.exceptions.BuyObjectException;
-import edu.upc.dsa.models.Object;
+import edu.upc.dsa.models.MyObject;
 import edu.upc.dsa.models.User;
 import org.apache.log4j.Logger;
 
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ObjectManagerImpl implements ObjectManager {
-    private static ObjectManager instance;
-    final static Logger logger = Logger.getLogger(ObjectManagerImpl.class);
+public class MyObjectManagerImpl implements MyObjectManager {
+    private static MyObjectManager instance;
+    final static Logger logger = Logger.getLogger(MyObjectManagerImpl.class);
     HashMap<String, User> users;
-    HashMap<String, Object> objects;
+    HashMap<String, MyObject> objects;
 
-    public ObjectManagerImpl() {
+    public MyObjectManagerImpl() {
         users = new HashMap<>();
         objects = new HashMap<>();
     }
@@ -52,14 +52,14 @@ public class ObjectManagerImpl implements ObjectManager {
 
     @Override
     public void addObject(String objectId, String name, String description, double coins) {
-        Object newObject = new Object(objectId, name, description, coins);
-        objects.put(objectId, newObject);
+        MyObject newMyObject = new MyObject(objectId, name, description, coins);
+        objects.put(objectId, newMyObject);
     }
 
     @Override
-    public List<Object> objectsByPrice() {
-        List<Object> objectsByPrice = new ArrayList<>(objects.values());
-        objectsByPrice.sort(new ObjectComparatorByPrice());
+    public List<MyObject> objectsByPrice() {
+        List<MyObject> objectsByPrice = new ArrayList<>(objects.values());
+        objectsByPrice.sort(new MyObjectComparatorByPrice());
         return objectsByPrice;
     }
 
@@ -69,15 +69,15 @@ public class ObjectManagerImpl implements ObjectManager {
             throw new BuyObjectException();
         }
         User user = users.get(mail);
-        Object object = objects.get(objectId);
-        if (user.getCoins() < object.getCoins()) {
+        MyObject myObject = objects.get(objectId);
+        if (user.getCoins() < myObject.getCoins()) {
             throw new BuyObjectException();
         }
-        user.addObject(object);
+        user.addObject(myObject);
     }
 
     @Override
-    public List<Object> objectsByUser(String mail) {
+    public List<MyObject> objectsByUser(String mail) {
         return users.get(mail).getObjects();
     }
 
@@ -96,9 +96,9 @@ public class ObjectManagerImpl implements ObjectManager {
         return users.get(mail).getCoins();
     }
 
-    public static ObjectManager getInstance() {
+    public static MyObjectManager getInstance() {
         if (instance==null) {
-            instance = new ObjectManagerImpl();
+            instance = new MyObjectManagerImpl();
         }
         return instance;
     }
