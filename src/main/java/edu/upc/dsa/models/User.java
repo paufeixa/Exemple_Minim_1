@@ -11,6 +11,9 @@ public class User {
     String password;
     double coins;
     List<MyObject> myObjects;
+
+    public User() {}
+
     public User(String name, String surname, String date, String mail, String password){
         this.name = name;
         this.surname = surname;

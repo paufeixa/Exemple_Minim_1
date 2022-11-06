@@ -6,6 +6,8 @@ public class MyObject {
     String description;
     double coins;
 
+    public MyObject() {}
+
     public MyObject(String objectId, String name, String description, double coins) {
         this.objectId = objectId;
         this.name = name;
