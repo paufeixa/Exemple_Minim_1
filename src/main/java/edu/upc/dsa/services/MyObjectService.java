@@ -2,6 +2,7 @@ package edu.upc.dsa.services;
 
 import edu.upc.dsa.data.MyObjectManager;
 import edu.upc.dsa.data.MyObjectManagerImpl;
+import edu.upc.dsa.exceptions.BuyObjectException;
 import edu.upc.dsa.models.MyObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,10 +25,10 @@ public class MyObjectService {
     }
 
     @POST
-    @ApiOperation(value = "create a new Object", notes = "asdasd")
+    @ApiOperation(value = "create a new Object", notes = "Creates a new object")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful", response= MyObject.class),
-            @ApiResponse(code = 500, message = "Error")
+            @ApiResponse(code = 500, message = "Missing Information")
     })
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -40,48 +41,32 @@ public class MyObjectService {
     }
 
     @GET
-    @ApiOperation(value = "get all Objects", notes = "asdasd")
+    @ApiOperation(value = "get all Objects", notes = "Gets all objects ordered by descending price")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful", response = MyObject.class, responseContainer="List"),
     })
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getObject() {
-
         List<MyObject> myObjects = this.om.objectsByPrice();
-
         GenericEntity<List<MyObject>> entity = new GenericEntity<List<MyObject>>(myObjects) {};
         return Response.status(200).entity(entity).build();
     }
-/**
-    @GET
-    @ApiOperation(value = "get a Track", notes = "asdasd")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful", response = Track.class),
-            @ApiResponse(code = 404, message = "Track not found")
-    })
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getTrack(@PathParam("id") String id) {
-        Track t = this.tm.getTrack(id);
-        if (t == null) return Response.status(404).build();
-        else  return Response.status(201).entity(t).build();
-    }
 
     @PUT
-    @ApiOperation(value = "update a Track", notes = "asdasd")
+    @ApiOperation(value = "buy an Object", notes = "Buys an object for a user")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful"),
-            @ApiResponse(code = 404, message = "Track not found")
+            @ApiResponse(code = 200, message = "Successful"),
+            @ApiResponse(code = 500, message = "Error Buying")
     })
-    @Path("/")
-    public Response updateTrack(Track track) {
-
-        Track t = this.tm.updateTrack(track);
-
-        if (t == null) return Response.status(404).build();
-
-        return Response.status(201).build();
+    @Path("/user/{id}/{objectId}")
+    public Response buyObject(@PathParam("id") String mail, @PathParam("objectId") String objectId) throws BuyObjectException {
+        try {
+            this.om.buyObject(mail, objectId);
+        }
+        catch (BuyObjectException e) {
+            return Response.status(500).build();
+        }
+        return Response.status(200).build();
     }
-    */
 }

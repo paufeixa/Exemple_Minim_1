@@ -24,24 +24,56 @@ public class User {
         this.myObjects = new LinkedList<>();
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getName() {
+        return this.name;
     }
 
-    public List<MyObject> getObjects() {
-        return this.myObjects;
-    }
-
-    public double getCoins() {
-        return this.coins;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSurname() {
         return this.surname;
     }
 
-    public String getName() {
-        return this.name;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getMail() { return this.mail; }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getCoins() { return this.coins; }
+
+    public void setCoins(double coins) {
+        this.coins = coins;
+    }
+
+    public List<MyObject> getObjects() {
+        return this.myObjects;
+    }
+
+    public void setObjects(List<MyObject> myObjects) {
+        this.myObjects = myObjects;
     }
 
     public void addObject(MyObject myObject) {
