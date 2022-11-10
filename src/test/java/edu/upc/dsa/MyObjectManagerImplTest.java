@@ -4,6 +4,7 @@ import edu.upc.dsa.data.MyObjectManager;
 import edu.upc.dsa.data.MyObjectManagerImpl;
 import edu.upc.dsa.exceptions.BuyObjectException;
 import edu.upc.dsa.exceptions.UserExistingException;
+import edu.upc.dsa.models.Credentials;
 import edu.upc.dsa.models.MyObject;
 import edu.upc.dsa.models.User;
 import org.junit.After;
@@ -13,16 +14,20 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class MyMyObjectManagerImplTest {
+public class MyObjectManagerImplTest {
     MyObjectManager om;
 
     @Before
     public void setUp() throws UserExistingException, BuyObjectException {
         om = new MyObjectManagerImpl();
-        om.register("Pau","Feixa","29/12/2001","paufeixa20019@gmail.com","1234");
-        om.register("Kevin","Torres","23/07/2001","kevintorres@gmail.com","9876");
-        om.register("Lluc","Feixa","29/12/2001","llucfeixa@gmail.com","abcd");
-        om.register("Pere","Morancho","03/11/2003","perefeixa@gmail.com","1a2b");
+        Credentials credentials1 = new Credentials("paufeixa20019@gmail.com","1234");
+        om.register("Pau","Feixa","29/12/2001",credentials1);
+        Credentials credentials2 = new Credentials("kevintorres@gmail.com","9876");
+        om.register("Kevin","Torres","23/07/2001",credentials2);
+        Credentials credentials3 = new Credentials("llucfeixa@gmail.com","abcd");
+        om.register("Lluc","Feixa","29/12/2001",credentials3);
+        Credentials credentials4 = new Credentials("perefeixa@gmail.com","1a2b");
+        om.register("Pere","Morancho","03/11/2003",credentials4);
 
 
         om.addObject("1a","Bolígrafo","Bolígrafo de color azul",1.25);
@@ -39,7 +44,8 @@ public class MyMyObjectManagerImplTest {
     @Test
     public void testRegister() throws UserExistingException{
         Assert.assertEquals(4,this.om.numUsers());
-        this.om.register("Roger","Tudel","14/09/2001","rogertudel@gmail.com","abcd");
+        Credentials credentials5 = new Credentials("rogertudel@gmail.com","abcd");
+        this.om.register("Roger","Tudel","14/09/2001",credentials5);
         Assert.assertEquals(5,this.om.numUsers());
     }
 
@@ -66,11 +72,16 @@ public class MyMyObjectManagerImplTest {
 
     @Test
     public void testLogin() {
-        Assert.assertEquals(0,om.login("paufeixa20019@gmail.com","1234"));
-        Assert.assertEquals(-1,om.login("paufeixa@gmail.com","1234"));
-        Assert.assertEquals(-1,om.login("perefeixa@gmail.com","0123"));
-        Assert.assertEquals(-1,om.login("paufeixa@gmail.com","0123"));
-        Assert.assertEquals(0,om.login("kevintorres@gmail.com","9876"));
+        Credentials credentials6 = new Credentials("paufeixa20019@gmail.com","1234");
+        Assert.assertEquals(0,om.login(credentials6));
+        Credentials credentials7 = new Credentials("paufeixa@gmail.com","1234");
+        Assert.assertEquals(-1,om.login(credentials7));
+        Credentials credentials8 = new Credentials("perefeixa@gmail.com","0123");
+        Assert.assertEquals(-1,om.login(credentials8));
+        Credentials credentials9 = new Credentials("paufeixa@gmail.com","0123");
+        Assert.assertEquals(-1,om.login(credentials9));
+        Credentials credentials10 = new Credentials("kevintorres@gmail.com","9876");
+        Assert.assertEquals(0,om.login(credentials10));
     }
 
     @Test
@@ -101,18 +112,17 @@ public class MyMyObjectManagerImplTest {
 
     @Test
     public void testBuyObject() throws BuyObjectException {
-        Assert.assertEquals(45,this.om.getUserCoins("paufeixa20019@gmail.com"),0);
+        Assert.assertEquals(45, this.om.getUserCoins("paufeixa20019@gmail.com"), 0);
+        this.om.buyObject("paufeixa20019@gmail.com", "2b");
+        Assert.assertEquals(40, this.om.getUserCoins("paufeixa20019@gmail.com"), 0);
 
-        this.om.buyObject("paufeixa20019@gmail.com","2b");
-        Assert.assertEquals(40,this.om.getUserCoins("paufeixa20019@gmail.com"),0);
+        this.om.buyObject("paufeixa20019@gmail.com", "4d");
+        Assert.assertEquals(10, this.om.getUserCoins("paufeixa20019@gmail.com"), 0);
 
-        this.om.buyObject("paufeixa20019@gmail.com","4d");
-        Assert.assertEquals(10,this.om.getUserCoins("paufeixa20019@gmail.com"),0);
+        this.om.buyObject("paufeixa20019@gmail.com", "1a");
+        Assert.assertEquals(8.75, this.om.getUserCoins("paufeixa20019@gmail.com"), 0);
 
-        this.om.buyObject("paufeixa20019@gmail.com","1a");
-        Assert.assertEquals(8.75,this.om.getUserCoins("paufeixa20019@gmail.com"),0);
-
-        Assert.assertEquals(50,this.om.getUserCoins("llucfeixa@gmail.com"),0);
+        Assert.assertEquals(50, this.om.getUserCoins("llucfeixa@gmail.com"), 0);
     }
 
     @Test

@@ -6,6 +6,7 @@ import edu.upc.dsa.exceptions.UserExistingException;
 import edu.upc.dsa.models.Credentials;
 import edu.upc.dsa.models.MyObject;
 import edu.upc.dsa.models.User;
+import edu.upc.dsa.models.UserRegister;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -35,12 +36,12 @@ public class UserService {
     })
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newUser(User user) throws UserExistingException {
-        if (user.getName()==null || user.getSurname()==null || user.getDate()==null || user.getMail()==null || user.getPassword()==null) {
+    public Response newUser(UserRegister user) throws UserExistingException {
+        if (user.getName()==null || user.getSurname()==null || user.getDate()==null || user.getCredentials().getMail()==null || user.getCredentials().getPassword()==null) {
             return Response.status(500).entity(user).build();
         }
         try {
-            this.om.register(user.getName(), user.getSurname(), user.getDate(), user.getMail(), user.getPassword());
+            this.om.register(user.getName(), user.getSurname(), user.getDate(), user.getCredentials());
         }
         catch (UserExistingException e) {
             return Response.status(501).entity(user).build();
@@ -74,7 +75,7 @@ public class UserService {
         if (credentials.getMail() == null || credentials.getPassword() == null) {
             return Response.status(500).build();
         }
-        int i = this.om.login(credentials.getMail(), credentials.getPassword());
+        int i = this.om.login(credentials);
         if (i == -1) {
             return Response.status(501).build();
         }

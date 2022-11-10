@@ -4,6 +4,7 @@ import edu.upc.dsa.comparators.MyObjectComparatorByPrice;
 import edu.upc.dsa.comparators.UserComparatorByAlphabet;
 import edu.upc.dsa.exceptions.UserExistingException;
 import edu.upc.dsa.exceptions.BuyObjectException;
+import edu.upc.dsa.models.Credentials;
 import edu.upc.dsa.models.MyObject;
 import edu.upc.dsa.models.User;
 import org.apache.log4j.Logger;
@@ -24,12 +25,12 @@ public class MyObjectManagerImpl implements MyObjectManager {
     }
 
     @Override
-    public void register(String name, String surname, String date, String mail, String password) throws UserExistingException{
-        if (users.containsKey(mail)) {
+    public void register(String name, String surname, String date, Credentials credentials) throws UserExistingException{
+        if (users.containsKey(credentials.getMail())) {
             throw new UserExistingException();
         }
-        User newUser = new User(name, surname, date, mail, password);
-        users.put(mail, newUser);
+        User newUser = new User(name, surname, date, credentials);
+        users.put(credentials.getMail(), newUser);
     }
 
     @Override
@@ -40,10 +41,10 @@ public class MyObjectManagerImpl implements MyObjectManager {
     }
 
     @Override
-    public int login(String mail, String password) {
-        if (users.containsKey(mail)) {
-            User user = users.get(mail);
-            if (user.getPassword().equals(password)) {
+    public int login(Credentials credentials) {
+        if (users.containsKey(credentials.getMail())) {
+            User user = users.get(credentials.getMail());
+            if (user.getCredentials().getPassword().equals(credentials.getPassword())) {
                 return 0;
             }
         }

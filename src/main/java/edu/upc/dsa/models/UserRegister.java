@@ -1,26 +1,19 @@
 package edu.upc.dsa.models;
 
-import java.util.LinkedList;
-import java.util.List;
-
-public class User {
+public class UserRegister {
     String name;
     String surname;
     String date;
     Credentials credentials;
-    double coins;
-    List<MyObject> myObjects;
 
-    public User() {
+    public UserRegister() {
     }
 
-    public User(String name, String surname, String date, Credentials credentials) {
+    public UserRegister(String name, String surname, String date, Credentials credentials) {
         this.name = name;
         this.surname = surname;
         this.date = date;
         this.credentials = credentials;
-        this.coins = 50;
-        this.myObjects = new LinkedList<>();
     }
 
     public String getName() {
@@ -53,26 +46,5 @@ public class User {
 
     public void setCredentials(Credentials credentials) {
         this.credentials = credentials;
-    }
-
-    public double getCoins() {
-        return this.coins;
-    }
-
-    public void setCoins(double coins) {
-        this.coins = coins;
-    }
-
-    public List<MyObject> getObjects() {
-        return this.myObjects;
-    }
-
-    public void setObjects(List<MyObject> myObjects) {
-        this.myObjects = myObjects;
-    }
-
-    public void addObject(MyObject myObject) {
-        this.myObjects.add(myObject);
-        this.coins = this.coins - myObject.getCoins();
     }
 }
